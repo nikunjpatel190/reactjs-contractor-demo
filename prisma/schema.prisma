@@ -1,0 +1,30 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+generator pothos {
+  provider = "prisma-pothos-types"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model Contractor {
+  email String  @unique
+  id    Int     @default(autoincrement()) @id
+  name  String?
+  specialities Specialities[]
+  dayrate Float
+  availability Boolean @default(true)
+  color String?
+}
+
+model Specialities {
+  id    Int     @default(autoincrement()) @id
+  contractorId Int?
+  key String
+  value String
+  contractor    Contractor?   @relation(fields: [contractorId], references: [id])
+}
